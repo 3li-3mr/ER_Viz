@@ -1,0 +1,15 @@
+Design a database for a luxury hospitality and resort management network:
+
+1. A Resort has a unique resort_id, a name, a location consisting of street, city, and country, and multiple contact_phones.
+
+2. A Room has a room_number, a bed_count, and a daily_rate. Rooms are numbered locally within each resort (e.g., room 101 or 202). Every single room must belong to exactly one Resort, while a Resort contains multiple Rooms.
+
+3. A Guest has a guest_id, a full_name consisting of first_name and last_name, an email, and multiple emergency_contacts. 
+
+4. A Guest can make reservations for multiple Rooms, and a Room can be reserved by multiple Guests over different time periods. Participation is optional for both.
+
+5. A Service (such as Scuba Diving, Spa Treatment, or Airport Shuttle) has a service_id, a title, and a base_fee. 
+
+6. A Resort provides multiple Services, and each Service can be provided by multiple Resorts. Every Service must be offered by at least one Resort.
+
+7. A Guest can subscribe to multiple Services during their stay, and each Service can be utilized by multiple Guests.

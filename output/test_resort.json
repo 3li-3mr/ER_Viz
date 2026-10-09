@@ -1,0 +1,157 @@
+{
+  "entities": [
+    {
+      "name": "Resort",
+      "isWeak": false,
+      "attributes": [
+        {
+          "name": "resort_id",
+          "isPrimaryKey": true,
+          "isMultiValued": false,
+          "composite": null
+        },
+        {
+          "name": "name",
+          "isPrimaryKey": false,
+          "isMultiValued": false,
+          "composite": null
+        },
+        {
+          "name": "location",
+          "isPrimaryKey": false,
+          "isMultiValued": false,
+          "composite": [
+            "street",
+            "city",
+            "country"
+          ]
+        },
+        {
+          "name": "contact_phones",
+          "isPrimaryKey": false,
+          "isMultiValued": true,
+          "composite": null
+        }
+      ]
+    },
+    {
+      "name": "Room",
+      "isWeak": true,
+      "attributes": [
+        {
+          "name": "room_number",
+          "isPrimaryKey": false,
+          "isMultiValued": false,
+          "composite": null
+        },
+        {
+          "name": "bed_count",
+          "isPrimaryKey": false,
+          "isMultiValued": false,
+          "composite": null
+        },
+        {
+          "name": "daily_rate",
+          "isPrimaryKey": false,
+          "isMultiValued": false,
+          "composite": null
+        }
+      ]
+    },
+    {
+      "name": "Guest",
+      "isWeak": false,
+      "attributes": [
+        {
+          "name": "guest_id",
+          "isPrimaryKey": true,
+          "isMultiValued": false,
+          "composite": null
+        },
+        {
+          "name": "full_name",
+          "isPrimaryKey": false,
+          "isMultiValued": false,
+          "composite": [
+            "first_name",
+            "last_name"
+          ]
+        },
+        {
+          "name": "email",
+          "isPrimaryKey": false,
+          "isMultiValued": false,
+          "composite": null
+        },
+        {
+          "name": "emergency_contacts",
+          "isPrimaryKey": false,
+          "isMultiValued": true,
+          "composite": null
+        }
+      ]
+    },
+    {
+      "name": "Service",
+      "isWeak": false,
+      "attributes": [
+        {
+          "name": "service_id",
+          "isPrimaryKey": true,
+          "isMultiValued": false,
+          "composite": null
+        },
+        {
+          "name": "title",
+          "isPrimaryKey": false,
+          "isMultiValued": false,
+          "composite": null
+        },
+        {
+          "name": "base_fee",
+          "isPrimaryKey": false,
+          "isMultiValued": false,
+          "composite": null
+        }
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "name": "Contains",
+      "entity1": "Resort",
+      "entity2": "Room",
+      "cardinality": "1:N",
+      "isIdentifying": true,
+      "entity1Participation": "partial",
+      "entity2Participation": "total"
+    },
+    {
+      "name": "Reserves",
+      "entity1": "Guest",
+      "entity2": "Room",
+      "cardinality": "M:N",
+      "isIdentifying": false,
+      "entity1Participation": "partial",
+      "entity2Participation": "partial"
+    },
+    {
+      "name": "Provides",
+      "entity1": "Resort",
+      "entity2": "Service",
+      "cardinality": "M:N",
+      "isIdentifying": false,
+      "entity1Participation": "partial",
+      "entity2Participation": "total"
+    },
+    {
+      "name": "Subscribes_To",
+      "entity1": "Guest",
+      "entity2": "Service",
+      "cardinality": "M:N",
+      "isIdentifying": false,
+      "entity1Participation": "partial",
+      "entity2Participation": "partial"
+    }
+  ]
+}

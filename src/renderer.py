@@ -28,13 +28,11 @@ def render_er_diagram(
 
     for entity in diagram.entities:
         entity_node_id = f"ent_{entity.name}"
-        dot.node(
-            entity_node_id,
-            label=entity.name,
-            shape="box",
-            style="bold",
-            margin="0.2,0.1",
-        )
+        entity_kwargs = {"shape": "box", "style": "bold"}
+        if entity.is_weak:
+            entity_kwargs["peripheries"] = "2"
+
+        dot.node(entity_node_id, label=entity.name, **entity_kwargs)
 
         for attr in entity.attributes:
             attr_node_id = f"attr_{entity.name}_{attr.name}"
@@ -55,17 +53,24 @@ def render_er_diagram(
 
     for idx, rel in enumerate(diagram.relationships):
         rel_node_id = f"rel_{idx}_{rel.name}"
-        dot.node(rel_node_id, label=rel.name, shape="diamond", style="bold")
+        rel_kwargs = {"shape": "diamond", "style": "bold"}
+        if rel.is_identifying:
+            rel_kwargs["peripheries"] = "2"
+
+        dot.node(rel_node_id, label=rel.name, **rel_kwargs)
 
         card_parts = [p.strip() for p in rel.cardinality.split(":")]
         card1 = card_parts[0] if len(card_parts) > 0 else ""
         card2 = card_parts[1] if len(card_parts) > 1 else ""
 
+        edge1_color = "black:black" if rel.entity1_participation.lower() == "total" else "black"
+        edge2_color = "black:black" if rel.entity2_participation.lower() == "total" else "black"
+
         ent1_id = f"ent_{rel.entity1}"
         ent2_id = f"ent_{rel.entity2}"
 
-        dot.edge(ent1_id, rel_node_id, label=f" {card1} ")
-        dot.edge(rel_node_id, ent2_id, label=f" {card2} ")
+        dot.edge(ent1_id, rel_node_id, label=f" {card1} ", color=edge1_color)
+        dot.edge(rel_node_id, ent2_id, label=f" {card2} ", color=edge2_color)
 
     rendered_file = dot.render(output_path, cleanup=True)
     return rendered_file

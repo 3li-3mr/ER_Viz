@@ -1,0 +1,4 @@
+Design a corporate HR database:
+1. An Employee has a ssn (primary key), a name consisting of first_name and last_name, and multiple phone_numbers.
+2. A Department has a dept_id (primary key) and a name. An Employee must work in exactly one Department, while a Department employs many Employees (cardinality N:1, total participation for Employee).
+3. An Employee may have multiple Dependents. A Dependent has a dependent_name, a birth_date, and a relationship_type. Dependents cannot exist without an Employee and depend on them for identification. Every Dependent must belong to an Employee (identifying relationship Has_Dependent, cardinality 1:N, total participation for Dependent).
