@@ -1,0 +1,65 @@
+{
+  "entities": [
+    {
+      "name": "Doctor",
+      "attributes": [
+        {
+          "name": "national_id",
+          "isPrimaryKey": true,
+          "isMultiValued": false,
+          "composite": null
+        },
+        {
+          "name": "full_name",
+          "isPrimaryKey": false,
+          "isMultiValued": false,
+          "composite": [
+            "first_name",
+            "last_name"
+          ]
+        },
+        {
+          "name": "contact_numbers",
+          "isPrimaryKey": false,
+          "isMultiValued": true,
+          "composite": null
+        }
+      ]
+    },
+    {
+      "name": "Patient",
+      "attributes": [
+        {
+          "name": "patient_id",
+          "isPrimaryKey": true,
+          "isMultiValued": false,
+          "composite": null
+        },
+        {
+          "name": "address",
+          "isPrimaryKey": false,
+          "isMultiValued": false,
+          "composite": [
+            "street",
+            "city",
+            "zip"
+          ]
+        },
+        {
+          "name": "age",
+          "isPrimaryKey": false,
+          "isMultiValued": false,
+          "composite": null
+        }
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "name": "Treats",
+      "entity1": "Doctor",
+      "entity2": "Patient",
+      "cardinality": "M:N"
+    }
+  ]
+}
