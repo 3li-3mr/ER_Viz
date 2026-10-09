@@ -1,0 +1,109 @@
+{
+  "entities": [
+    {
+      "name": "Supplier",
+      "isWeak": false,
+      "attributes": [
+        {
+          "name": "supplier_id",
+          "isPrimaryKey": true,
+          "isMultiValued": false,
+          "composite": null
+        },
+        {
+          "name": "company_name",
+          "isPrimaryKey": false,
+          "isMultiValued": false,
+          "composite": null
+        },
+        {
+          "name": "address",
+          "isPrimaryKey": false,
+          "isMultiValued": false,
+          "composite": [
+            "street",
+            "city",
+            "country"
+          ]
+        },
+        {
+          "name": "contact_phones",
+          "isPrimaryKey": false,
+          "isMultiValued": true,
+          "composite": null
+        }
+      ]
+    },
+    {
+      "name": "Part",
+      "isWeak": false,
+      "attributes": [
+        {
+          "name": "part_number",
+          "isPrimaryKey": true,
+          "isMultiValued": false,
+          "composite": null
+        },
+        {
+          "name": "part_name",
+          "isPrimaryKey": false,
+          "isMultiValued": false,
+          "composite": null
+        },
+        {
+          "name": "standard_cost",
+          "isPrimaryKey": false,
+          "isMultiValued": false,
+          "composite": null
+        }
+      ]
+    },
+    {
+      "name": "Project",
+      "isWeak": false,
+      "attributes": [
+        {
+          "name": "project_code",
+          "isPrimaryKey": true,
+          "isMultiValued": false,
+          "composite": null
+        },
+        {
+          "name": "project_title",
+          "isPrimaryKey": false,
+          "isMultiValued": false,
+          "composite": null
+        },
+        {
+          "name": "budget",
+          "isPrimaryKey": false,
+          "isMultiValued": false,
+          "composite": null
+        }
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "name": "Supplies",
+      "isIdentifying": false,
+      "participants": [
+        {
+          "entity": "Supplier",
+          "cardinality": "M",
+          "participation": "partial"
+        },
+        {
+          "entity": "Part",
+          "cardinality": "N",
+          "participation": "partial"
+        },
+        {
+          "entity": "Project",
+          "cardinality": "P",
+          "participation": "total"
+        }
+      ]
+    }
+  ]
+}

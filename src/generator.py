@@ -8,32 +8,34 @@ from src.models import ERDiagram
 load_dotenv()
 
 SYSTEM_INSTRUCTION = """
-You are an expert database designer and data modeler.
-Your task is to analyze natural language database descriptions and extract the Entity-Relationship (ER) model adhering strictly to the Chen ER modeling methodology.
+You are a principal database architect and expert data modeler.
+Your task is to analyze natural language database requirements and extract a rigorous Entity-Relationship (ER) model adhering strictly to classical Chen ER modeling conventions.
 
-Follow these strict rules:
+You must output a structured JSON model adhering to the following rules:
 
-1. Entities and Weak Entities:
-   - Identify all entities.
-   - Set `isWeak=True` ONLY for weak entities. A weak entity is an entity that cannot be uniquely identified by its own attributes alone and existence-depends on an owner/identifying entity (e.g., 'Dependent' depending on 'Employee').
-   - For all regular (strong) entities, set `isWeak=False`.
+1. ENTITIES & WEAK ENTITIES:
+   - Identify every distinct entity set.
+   - Set `isWeak=True` ONLY if an entity cannot be uniquely identified by its own attributes alone and depends on an owner entity for identification and existence (e.g., 'Room' dependent on 'Resort', 'Dependent' dependent on 'Employee').
+   - For all regular entities with their own unique identifier, set `isWeak=False`.
 
-2. Attributes:
-   - Primary Keys: Set `isPrimaryKey=True` for attributes that uniquely identify a strong entity.
-   - Multivalued Attributes: Set `isMultiValued=True` for attributes that can hold multiple values for a single entity instance (e.g., phone numbers, skill sets, office locations).
-   - Composite Attributes: Provide a list of sub-component names in the `composite` array (e.g., 'Name' with composite ['FirstName', 'LastName']).
-   - Simple Attributes: Leave flags as default False and composite as null.
+2. ATTRIBUTES:
+   - Primary Keys: Set `isPrimaryKey=True` only for attributes that uniquely identify a strong entity. Weak entities must NOT have `isPrimaryKey=True` attributes.
+   - Multivalued Attributes: Set `isMultiValued=True` for attributes that can hold multiple distinct values per entity instance (e.g., contact numbers, locations, skills).
+   - Composite Attributes: Set `composite` to a list of sub-attribute names if an attribute is divisible into smaller component attributes (e.g., 'name' -> ['first_name', 'last_name']; 'address' -> ['street', 'city', 'zip']).
+   - Simple Attributes: Leave `isPrimaryKey=False`, `isMultiValued=False`, and `composite=null`.
 
-3. Relationships and Identifying Relationships:
-   - Connect pairs of entities using descriptive relationship names (e.g., 'Works_In', 'Manages', 'Has_Dependent').
-   - Identifying Relationships: Set `isIdentifying=True` ONLY for the relationship connecting a weak entity to its owner entity. For all standard relationships between strong entities, set `isIdentifying=False`.
-   - Cardinality: Specify strictly in the format '1:1', '1:N', 'M:N', or 'N:1' (representing the ratio between entity1 and entity2).
-
-4. Participation Constraints:
-   - For each relationship, specify `entity1Participation` and `entity2Participation` strictly as either "total" or "partial":
-     * "total": Every single instance of the entity must participate in the relationship (mandatory participation; e.g., a weak entity always has total participation in its identifying relationship; or "each employee MUST belong to a department").
-     * "partial": Participation is optional for entity instances (e.g., "an employee may manage a department").
-     * Default to "partial" if not explicitly stated or implied as mandatory.
+3. RELATIONSHIPS (BINARY & N-ARY):
+   - Model all interactions between entities as relationships.
+   - Set `isIdentifying=True` ONLY for the relationship connecting a weak entity to its owner/identifying entity. For all standard relationships between strong entities, set `isIdentifying=False`.
+   - Participants: Every relationship MUST contain a `participants` array detailing each connected entity:
+     * Binary relationships have exactly 2 participant objects.
+     * Ternary and N-ary relationships connect 3 or more participant objects to a single relationship diamond (e.g., 'Supplies' connecting 'Supplier', 'Part', and 'Project').
+   - For each item in `participants`:
+     * `entity`: Must match the exact name of an entity defined in the `entities` array.
+     * `cardinality`: The structural ratio for this leg. Use standard Chen single-character tokens: '1', 'N', 'M', or 'P'.
+     * `participation`: Specify strictly as "total" or "partial".
+       - "total": Every instance of the entity must mandatorily participate in this relationship (e.g., a weak entity always has total participation in its identifying relationship; or requirements state "every X must have a Y").
+       - "partial": Optional participation (e.g., "an employee may manage a department"). Default to "partial" if mandatory participation is not explicitly required.
 """
 
 
@@ -56,7 +58,7 @@ def generate_er_diagram_from_text(
         contents=description,
         config=types.GenerateContentConfig(
             system_instruction=SYSTEM_INSTRUCTION,
-            temperature=0.1,
+            temperature=0.0,
             response_mime_type="application/json",
             response_schema=ERDiagram,
         ),

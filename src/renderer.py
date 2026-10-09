@@ -59,18 +59,16 @@ def render_er_diagram(
 
         dot.node(rel_node_id, label=rel.name, **rel_kwargs)
 
-        card_parts = [p.strip() for p in rel.cardinality.split(":")]
-        card1 = card_parts[0] if len(card_parts) > 0 else ""
-        card2 = card_parts[1] if len(card_parts) > 1 else ""
-
-        edge1_color = "black:black" if rel.entity1_participation.lower() == "total" else "black"
-        edge2_color = "black:black" if rel.entity2_participation.lower() == "total" else "black"
-
-        ent1_id = f"ent_{rel.entity1}"
-        ent2_id = f"ent_{rel.entity2}"
-
-        dot.edge(ent1_id, rel_node_id, label=f" {card1} ", color=edge1_color)
-        dot.edge(rel_node_id, ent2_id, label=f" {card2} ", color=edge2_color)
-
+        # Loop over all N participating entities
+        for part in rel.participants:
+            ent_node_id = f"ent_{part.entity}"
+            edge_color = "black:black" if part.participation.lower() == "total" else "black"
+            dot.edge(
+                ent_node_id,
+                rel_node_id,
+                label=f" {part.cardinality} ",
+                color=edge_color
+            )
+            
     rendered_file = dot.render(output_path, cleanup=True)
     return rendered_file

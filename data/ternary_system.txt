@@ -1,0 +1,12 @@
+Design a database for an enterprise construction and procurement system:
+
+1. A Supplier has a supplier_id (primary key), a company_name, an address consisting of street, city, and country, and multiple contact_phones.
+
+2. A Part has a part_number (primary key), a part_name, and a standard_cost.
+
+3. A Project has a project_code (primary key), a project_title, and a budget.
+
+4. Suppliers supply Parts to Projects via a central procurement process called Supplies. A single supply transaction simultaneously links a Supplier, a Part, and a Project together. 
+   - A Supplier can supply multiple Parts to multiple Projects (cardinality M, partial participation).
+   - A Part can be supplied by multiple Suppliers to multiple Projects (cardinality N, partial participation).
+   - A Project receives multiple Parts from various Suppliers (cardinality P). Every Project must receive supplies from this process (total participation for Project).
