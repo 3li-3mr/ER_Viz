@@ -35,7 +35,7 @@ def get_gemini_client() -> genai.Client:
 
 
 def generate_er_diagram_from_text(
-    description: str, model_name: str = "gemini-3.5-flash"
+    description: str, model_name: str = "gemini-3.8-flash"
 ) -> ERDiagram:
     client = get_gemini_client()
     response = client.models.generate_content(

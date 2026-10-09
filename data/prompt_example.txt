@@ -1,0 +1,4 @@
+﻿Design a University Course Registration database:
+1. An Instructor has an instructor_id (primary key), a name consisting of first_name and last_name, a salary, and multiple office_numbers.
+2. A Course has a course_code (primary key), a title, and credits.
+3. An Instructor teaches multiple Courses, but each Course is taught by one Instructor.

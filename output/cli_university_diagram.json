@@ -1,0 +1,67 @@
+{
+  "entities": [
+    {
+      "name": "Instructor",
+      "attributes": [
+        {
+          "name": "instructor_id",
+          "isPrimaryKey": true,
+          "isMultiValued": false,
+          "composite": null
+        },
+        {
+          "name": "name",
+          "isPrimaryKey": false,
+          "isMultiValued": false,
+          "composite": [
+            "first_name",
+            "last_name"
+          ]
+        },
+        {
+          "name": "salary",
+          "isPrimaryKey": false,
+          "isMultiValued": false,
+          "composite": null
+        },
+        {
+          "name": "office_numbers",
+          "isPrimaryKey": false,
+          "isMultiValued": true,
+          "composite": null
+        }
+      ]
+    },
+    {
+      "name": "Course",
+      "attributes": [
+        {
+          "name": "course_code",
+          "isPrimaryKey": true,
+          "isMultiValued": false,
+          "composite": null
+        },
+        {
+          "name": "title",
+          "isPrimaryKey": false,
+          "isMultiValued": false,
+          "composite": null
+        },
+        {
+          "name": "credits",
+          "isPrimaryKey": false,
+          "isMultiValued": false,
+          "composite": null
+        }
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "name": "Teaches",
+      "entity1": "Instructor",
+      "entity2": "Course",
+      "cardinality": "1:N"
+    }
+  ]
+}
