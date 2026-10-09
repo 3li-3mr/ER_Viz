@@ -1,0 +1,55 @@
+{
+  "entities": [
+    {
+      "name": "Member",
+      "attributes": [
+        {
+          "name": "member_id",
+          "isPrimaryKey": true,
+          "isMultiValued": false,
+          "composite": null
+        },
+        {
+          "name": "full_name",
+          "isPrimaryKey": false,
+          "isMultiValued": false,
+          "composite": [
+            "first_name",
+            "last_name"
+          ]
+        },
+        {
+          "name": "phone_numbers",
+          "isPrimaryKey": false,
+          "isMultiValued": true,
+          "composite": null
+        }
+      ]
+    },
+    {
+      "name": "Book",
+      "attributes": [
+        {
+          "name": "isbn",
+          "isPrimaryKey": true,
+          "isMultiValued": false,
+          "composite": null
+        },
+        {
+          "name": "title",
+          "isPrimaryKey": false,
+          "isMultiValued": false,
+          "composite": null
+        }
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "name": "Borrows",
+      "entity1": "Member",
+      "entity2": "Book",
+      "cardinality": "1:N"
+    }
+  ]
+}
