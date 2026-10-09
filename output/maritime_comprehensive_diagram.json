@@ -1,0 +1,187 @@
+{
+  "entities": [
+    {
+      "name": "Shipping_Company",
+      "isWeak": false,
+      "attributes": [
+        {
+          "name": "company_id",
+          "isPrimaryKey": true,
+          "isMultiValued": false,
+          "composite": null
+        },
+        {
+          "name": "company_name",
+          "isPrimaryKey": false,
+          "isMultiValued": false,
+          "composite": null
+        },
+        {
+          "name": "corporate_hq",
+          "isPrimaryKey": false,
+          "isMultiValued": false,
+          "composite": [
+            "street",
+            "city",
+            "postal_code"
+          ]
+        },
+        {
+          "name": "dispatch_phones",
+          "isPrimaryKey": false,
+          "isMultiValued": true,
+          "composite": null
+        }
+      ]
+    },
+    {
+      "name": "Vessel",
+      "isWeak": false,
+      "attributes": [
+        {
+          "name": "imo_number",
+          "isPrimaryKey": true,
+          "isMultiValued": false,
+          "composite": null
+        },
+        {
+          "name": "vessel_name",
+          "isPrimaryKey": false,
+          "isMultiValued": false,
+          "composite": null
+        },
+        {
+          "name": "deadweight_tonnage",
+          "isPrimaryKey": false,
+          "isMultiValued": false,
+          "composite": null
+        },
+        {
+          "name": "radio_frequencies",
+          "isPrimaryKey": false,
+          "isMultiValued": true,
+          "composite": null
+        }
+      ]
+    },
+    {
+      "name": "Cargo_Hold",
+      "isWeak": true,
+      "attributes": [
+        {
+          "name": "hold_number",
+          "isPrimaryKey": false,
+          "isMultiValued": false,
+          "composite": null
+        },
+        {
+          "name": "max_volume_cubic_meters",
+          "isPrimaryKey": false,
+          "isMultiValued": false,
+          "composite": null
+        },
+        {
+          "name": "climate_control_type",
+          "isPrimaryKey": false,
+          "isMultiValued": false,
+          "composite": null
+        }
+      ]
+    },
+    {
+      "name": "Port",
+      "isWeak": false,
+      "attributes": [
+        {
+          "name": "port_code",
+          "isPrimaryKey": true,
+          "isMultiValued": false,
+          "composite": null
+        },
+        {
+          "name": "port_name",
+          "isPrimaryKey": false,
+          "isMultiValued": false,
+          "composite": null
+        },
+        {
+          "name": "harbor_depth",
+          "isPrimaryKey": false,
+          "isMultiValued": false,
+          "composite": null
+        }
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "name": "Owns",
+      "isIdentifying": false,
+      "participants": [
+        {
+          "entity": "Shipping_Company",
+          "cardinality": "1",
+          "participation": "partial"
+        },
+        {
+          "entity": "Vessel",
+          "cardinality": "N",
+          "participation": "total"
+        }
+      ]
+    },
+    {
+      "name": "Contains_Hold",
+      "isIdentifying": true,
+      "participants": [
+        {
+          "entity": "Vessel",
+          "cardinality": "1",
+          "participation": "partial"
+        },
+        {
+          "entity": "Cargo_Hold",
+          "cardinality": "N",
+          "participation": "total"
+        }
+      ]
+    },
+    {
+      "name": "Licensed_At",
+      "isIdentifying": false,
+      "participants": [
+        {
+          "entity": "Shipping_Company",
+          "cardinality": "M",
+          "participation": "partial"
+        },
+        {
+          "entity": "Port",
+          "cardinality": "N",
+          "participation": "partial"
+        }
+      ]
+    },
+    {
+      "name": "Port_Call",
+      "isIdentifying": false,
+      "participants": [
+        {
+          "entity": "Shipping_Company",
+          "cardinality": "M",
+          "participation": "partial"
+        },
+        {
+          "entity": "Vessel",
+          "cardinality": "N",
+          "participation": "partial"
+        },
+        {
+          "entity": "Port",
+          "cardinality": "P",
+          "participation": "total"
+        }
+      ]
+    }
+  ]
+}

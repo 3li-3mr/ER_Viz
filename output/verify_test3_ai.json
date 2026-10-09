@@ -2,6 +2,7 @@
   "entities": [
     {
       "name": "Member",
+      "isWeak": false,
       "attributes": [
         {
           "name": "member_id",
@@ -28,6 +29,7 @@
     },
     {
       "name": "Book",
+      "isWeak": false,
       "attributes": [
         {
           "name": "isbn",
@@ -47,9 +49,19 @@
   "relationships": [
     {
       "name": "Borrows",
-      "entity1": "Member",
-      "entity2": "Book",
-      "cardinality": "1:N"
+      "isIdentifying": false,
+      "participants": [
+        {
+          "entity": "Member",
+          "cardinality": "1",
+          "participation": "partial"
+        },
+        {
+          "entity": "Book",
+          "cardinality": "N",
+          "participation": "partial"
+        }
+      ]
     }
   ]
 }

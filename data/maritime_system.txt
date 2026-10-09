@@ -1,0 +1,16 @@
+Design a database for a global maritime cargo and fleet logistics network:
+
+1. A Shipping_Company has a unique company_id, a company_name, a corporate_hq consisting of street, city, and postal_code, and multiple dispatch_phones.
+
+2. A Vessel has a unique imo_number, a vessel_name, a deadweight_tonnage, and multiple radio_frequencies. Every Vessel must be owned and registered under exactly one Shipping_Company, whereas a Shipping_Company owns and operates multiple Vessels.
+
+3. A Cargo_Hold has a hold_number, a max_volume_cubic_meters, and a climate_control_type. Cargo holds are numbered locally within each vessel (e.g., Hold 1, Hold 2) and do not have an independent global identifier; a cargo hold cannot exist without the vessel it is built into. Every single Cargo_Hold must belong to exactly one Vessel, while a Vessel contains multiple Cargo_Holds.
+
+4. A Port has a unique port_code, a port_name, and a harbor_depth. 
+
+5. A Shipping_Company can maintain commercial operating licenses at multiple Ports, and a Port can grant licenses to multiple Shipping_Companies.
+
+6. A central port transit operation called Port_Call simultaneously coordinates a Shipping_Company, a Vessel, and a Port during maritime voyages:
+   - A Shipping_Company routes multiple Vessels through multiple Ports.
+   - A Vessel is scheduled by multiple Shipping_Companies to dock at multiple Ports.
+   - A Port handles port calls for multiple Vessels directed by various Shipping_Companies. Every single Port in the network must actively service port calls.
