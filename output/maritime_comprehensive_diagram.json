@@ -61,7 +61,8 @@
           "isPrimaryKey": false,
           "isMultiValued": true,
           "composite": null
-        }
+        },
+        { "name": "vessel_age", "isDerived": true }
       ]
     },
     {
@@ -72,7 +73,8 @@
           "name": "hold_number",
           "isPrimaryKey": false,
           "isMultiValued": false,
-          "composite": null
+          "composite": null,
+          "isPartialKey": true
         },
         {
           "name": "max_volume_cubic_meters",

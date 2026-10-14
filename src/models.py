@@ -7,7 +7,9 @@ class Attribute(BaseModel):
 
     name: str
     is_primary_key: bool = Field(default=False, alias="isPrimaryKey")
+    is_partial_key: bool = Field(default=False, alias="isPartialKey")
     is_multivalued: bool = Field(default=False, alias="isMultiValued")
+    is_derived: bool = Field(default=False, alias="isDerived")
     composite: Optional[List[str]] = None
 
 

@@ -48,27 +48,27 @@ def render_er_diagram(
             for attr in entity.attributes:
                 attr_node_id = f"attr_{entity.name}_{attr.name}"
                 node_kwargs = {"shape": "ellipse", "margin": "0.08,0.04"}
+
                 if attr.is_multivalued:
                     node_kwargs["peripheries"] = "2"
 
-                if attr.is_primary_key:
-                    sub.node(attr_node_id, label=f"<<u>{attr.name}</u>>", **node_kwargs)
-                else:
-                    sub.node(attr_node_id, label=attr.name, **node_kwargs)
+                if attr.is_derived:
+                    node_kwargs["style"] = "dashed"
 
-                # Connect attribute to entity inside cluster
+                if attr.is_primary_key:
+                    label_str = f"<<u>{attr.name}</u>>"
+                elif attr.is_partial_key:
+                    label_str = (
+                        f'<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="1">'
+                        f'<TR><TD BORDER="1" SIDES="B" STYLE="DASHED">{attr.name}</TD></TR>'
+                        f'</TABLE>>'
+                    )
+                else:
+                    label_str = attr.name
+
+                sub.node(attr_node_id, label=label_str, **node_kwargs)
                 sub.edge(entity_node_id, attr_node_id)
 
-                # Composite sub-attributes
-                if attr.composite:
-                    for sub_attr in attr.composite:
-                        sub_node_id = f"sub_{entity.name}_{attr.name}_{sub_attr}"
-                        sub.node(
-                            sub_node_id, label=sub_attr, shape="ellipse", margin="0.05,0.02"
-                        )
-                        sub.edge(attr_node_id, sub_node_id)
-
-    # 2. Render Relationships Outside the Clusters
     for idx, rel in enumerate(diagram.relationships):
         rel_node_id = f"rel_{idx}_{rel.name}"
         rel_kwargs = {"shape": "diamond", "style": "bold", "margin": "0.15,0.08"}
@@ -77,8 +77,6 @@ def render_er_diagram(
 
         dot.node(rel_node_id, label=rel.name, **rel_kwargs)
 
-        # Alternating flow (ent1 -> rel -> ent2, ent3) forces 'dot'
-        # to place the relationship diamond in the center between the entities.
         for p_idx, part in enumerate(rel.participants):
             ent_node_id = f"ent_{part.entity}"
             edge_color = "black:black" if part.participation.lower() == "total" else "black"
