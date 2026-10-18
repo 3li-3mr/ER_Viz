@@ -77,6 +77,17 @@ def render_er_diagram(
 
         dot.node(rel_node_id, label=rel.name, **rel_kwargs)
 
+        for attr in rel.attributes:
+            rel_attr_id = f"rel_attr_{idx}_{rel.name}_{attr.name}"
+            attr_kwargs = {"shape": "ellipse", "margin": "0.08,0.04"}
+            if attr.is_multivalued:
+                attr_kwargs["peripheries"] = "2"
+            if attr.is_derived:
+                attr_kwargs["style"] = "dashed"
+
+            dot.node(rel_attr_id, label=attr.name, **attr_kwargs)
+            dot.edge(rel_node_id, rel_attr_id)
+
         for p_idx, part in enumerate(rel.participants):
             ent_node_id = f"ent_{part.entity}"
             edge_color = "black:black" if part.participation.lower() == "total" else "black"

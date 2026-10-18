@@ -36,6 +36,7 @@ You must output a structured JSON model adhering to the following rules:
      * `entity`: Must match the exact name of an entity defined in the `entities` array.
      * `cardinality`: Use standard Chen single-character tokens: '1', 'N', 'M', or 'P'.
      * `participation`: Specify strictly as "total" (mandatory) or "partial" (optional). Default to "partial" if not explicitly required.
+     - Relationship Attributes: If an interaction or event records its own descriptive attributes (e.g., 'StartDate' on WorksIn, 'Grade' on EnrolledIn, 'SupplyDate' and 'Quantity' on Supplies, or 'BorrowDate'/'DueDate' on Borrows), place them inside the relationship's `attributes` list rather than on an entity.
 """
 
 
