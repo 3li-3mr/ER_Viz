@@ -68,6 +68,13 @@ def render_er_diagram(
 
                 sub.node(attr_node_id, label=label_str, **node_kwargs)
                 sub.edge(entity_node_id, attr_node_id)
+                if attr.composite:
+                    for sub_attr in attr.composite:
+                        sub_node_id = f"sub_{entity.name}_{attr.name}_{sub_attr}"
+                        sub.node(
+                            sub_node_id, label=sub_attr, shape="ellipse", margin="0.05,0.02"
+                        )
+                        sub.edge(attr_node_id, sub_node_id)
 
     for idx, rel in enumerate(diagram.relationships):
         rel_node_id = f"rel_{idx}_{rel.name}"
